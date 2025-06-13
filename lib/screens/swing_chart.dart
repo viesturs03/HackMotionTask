@@ -18,11 +18,11 @@ class SwingChart extends StatelessWidget {
         Expanded(
           child: LineChart(
             LineChartData(
-              minY: -50,
-              maxY: 50,
+              minY: -60,
+              maxY: 60,  
               gridData: FlGridData(
                 show: true,
-                drawVerticalLine: false, 
+                drawVerticalLine: false,
                 getDrawingHorizontalLine: (value) {
                   return const FlLine(
                     color: Color(0xff37434d),
@@ -37,13 +37,11 @@ class SwingChart extends StatelessWidget {
                 topTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
                 rightTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
                 bottomTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
-
                 leftTitles: AxisTitles(
                   sideTitles: SideTitles(
                     showTitles: true,
-                    interval: 20, 
+                    interval: 20,
                     getTitlesWidget: (value, meta) {
-
                       if (value > 40 || value < -40) {
                         return Container();
                       }
@@ -56,7 +54,7 @@ class SwingChart extends StatelessWidget {
                         textAlign: TextAlign.left,
                       );
                     },
-                    reservedSize: 35, 
+                    reservedSize: 35,
                   ),
                 ),
               ),
@@ -95,7 +93,7 @@ class SwingChart extends StatelessWidget {
             ),
           ),
         ),
-        const SizedBox(height: 12), 
+        const SizedBox(height: 12),
         _buildLegend(),
       ],
     );
