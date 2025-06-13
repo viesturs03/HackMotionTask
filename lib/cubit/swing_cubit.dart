@@ -48,11 +48,11 @@ class SwingCubit extends Cubit<SwingState> {
         developer.log('Swing IDs loaded: $files');
       } else {
         developer.log('No swing files found');
-        emit(state.copyWith(swingIds: []));
+        emit(state.copyWith(swingIds: [], selectedSwingData: null, selectedSwingId: null));
       }
     } catch (e) {
       developer.log('Error loading swing IDs: $e');
-      emit(state.copyWith(swingIds: []));
+      emit(state.copyWith(swingIds: [], selectedSwingData: null, selectedSwingId: null));
     }
   }
 
@@ -68,6 +68,41 @@ class SwingCubit extends Cubit<SwingState> {
       developer.log('Swing data for $swingId loaded and state emitted.');
     } catch (e) {
       developer.log('Error loading swing data for $swingId: $e');
+      emit(state.copyWith(selectedSwingData: null, selectedSwingId: null));
+    }
+  }
+
+  Future<void> deleteSwing(String swingId) async {
+    try {
+      developer.log('Deleting swing $swingId...');
+      final newSwingIds = List<String>.from(state.swingIds)..remove(swingId);
+      
+      String? newSelectedSwingId;
+      SwingData? newSelectedSwingData;
+      
+      if (newSwingIds.isNotEmpty) {
+        final currentIndex = state.swingIds.indexOf(swingId);
+        final newIndex = currentIndex >= newSwingIds.length ? newSwingIds.length - 1 : currentIndex;
+        newSelectedSwingId = newSwingIds[newIndex];
+        
+        final String jsonString =
+            await rootBundle.loadString('data/swings/$newSelectedSwingId.json');
+        final Map<String, dynamic> jsonMap = json.decode(jsonString);
+        newSelectedSwingData = SwingData.fromJson(jsonMap);
+      } else {
+        newSelectedSwingId = null;
+        newSelectedSwingData = null;
+      }
+
+      emit(state.copyWith(
+        swingIds: newSwingIds,
+        selectedSwingId: newSelectedSwingId,
+        selectedSwingData: newSelectedSwingData,
+      ));
+      
+      developer.log('Swing $swingId deleted. New swing IDs: $newSwingIds');
+    } catch (e) {
+      developer.log('Error deleting swing $swingId: $e');
     }
   }
 }

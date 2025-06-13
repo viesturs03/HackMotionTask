@@ -28,8 +28,13 @@ class HomePage extends StatelessWidget {
           builder: (context, state) {
             if (state.swingIds.isEmpty) {
               return const Center(
-                child: CircularProgressIndicator(
-                  valueColor: AlwaysStoppedAnimation<Color>(Color(0xFF00E676)),
+                child: Text(
+                  'No swing data available',
+                  style: TextStyle(
+                    color: Colors.white70,
+                    fontSize: 18,
+                    fontWeight: FontWeight.w500,
+                  ),
                 ),
               );
             }
