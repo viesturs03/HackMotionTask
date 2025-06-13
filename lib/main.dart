@@ -14,7 +14,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => SwingCubit()..loadSwings(),
+      create: (context) => SwingCubit()..loadSwingIds(),
       child: MaterialApp(
         home: const HomePage(),
         theme: ThemeData.dark(),
